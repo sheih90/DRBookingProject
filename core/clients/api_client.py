@@ -72,29 +72,15 @@ class APIClient:
         with allure.step('Updating header with authorization'):
             self.session.headers.update({"Authorization": f"Bearer {token}"})
 
-    def get_booking_by_id(self):
-        with allure.step("GetBookingIds"): # получаем список всех бронирований
-            url = f"{self.base_url}{Endpoints.BOOKING_ENDPOINT}"
-            response = self.session.get(url)
-            response.raise_for_status()  # проверяем, что нет http ошибок
-        with allure.step('Checking status code'):
-            assert response.status_code == 200, f"Expected status 200 but got {response.status_code}"
+    def get_booking_by_id(self, booking_id: int):
 
-            bookings = response.json()  # cписок словарей с bookingid
-        with allure.step("Choose a random one bookingid"): # выбираем случайный booking_id
-            random_booking = random.choice(bookings)
-            booking_id = random_booking["bookingid"]
-
-        with allure.step('Get_booking_by_id'): # получаем бронирование по id
+        with allure.step(f'Get_booking_by_id {booking_id}'): # получаем конкретное id брони извне
             url = f"{self.base_url}{Endpoints.BOOKING_ENDPOINT}/{booking_id}"
             response = self.session.get(url)
             response.raise_for_status()
         with allure.step('Checking status code'):
             assert response.status_code == 200, f"Expected status 200 but got {response.status_code}"
-            booking_details = response.json()
-            assert "firstname" in booking_details, "Ответ не содержит firstname"
-            assert "lastname" in booking_details, "Ответ не содержит lastname"
-            assert "totalprice" in booking_details, "Ответ не содержит totalprice"
+            return response.json()
 
 
 
