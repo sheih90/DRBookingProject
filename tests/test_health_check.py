@@ -1,7 +1,7 @@
 import allure
 import pytest
 import requests
-from conftest import generate_random_booking_data
+
 
 @allure.feature('Test Ping')
 @allure.story('Test connection')
@@ -92,17 +92,5 @@ def test_ping_timeout(api_client, mocker):
         api_client.ping()
 
 
-@allure.feature('Test Booking')
-@allure.story('Test create booking')
-def test_create_booking(api_client, generate_random_booking_data):
-
-    with allure.step('Создание новой брони'):
-        booking_data = generate_random_booking_data
-        response_data = api_client.create_booking(booking_data)
-        print(response_data)
-
-    with allure.step('Проверка данных ответа'):
-        assert 'bookingid' in response_data, "Ответ должен содержать 'bookingid'"
-        assert isinstance(response_data['bookingid'], int), "'bookingid' должен быть числом"
 
 

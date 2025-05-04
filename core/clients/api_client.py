@@ -62,7 +62,6 @@ class APIClient:
         with allure.step('Getting authenticate'):
             url = f"{self.base_url}{Endpoints.AUTH_ENDPOINT.value}"
             payload = {"username": Users.USERNAME.value, "password": Users.PASSWORD.value}
-            print(payload)
             response = self.session.post(url, json=payload, timeout=Timeouts.TIMEOUT.value)
             response.raise_for_status()  # проверяем, что нет http ошибок
 
