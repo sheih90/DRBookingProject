@@ -3,11 +3,13 @@ import pytest
 from datetime import datetime, timedelta
 from faker import Faker
 
+
 @pytest.fixture(scope="session")
 def api_client():
     client = APIClient()
     client.auth()
     return client
+
 
 @pytest.fixture
 def booking_dates():
@@ -20,9 +22,10 @@ def booking_dates():
         "checkout": checkout_date.strftime('%Y-%m-%d')
     }
 
+
 @pytest.fixture()
 def generate_random_booking_data(booking_dates):
-    faker = Faker()  # Faker с заглавной буквы
+    faker = Faker()
     firstname = faker.first_name()
     lastname = faker.last_name()
     totalprice = faker.random_number(digits=3)
@@ -37,5 +40,4 @@ def generate_random_booking_data(booking_dates):
         "bookingdates": booking_dates,
         "additionalneeds": additionalneeds
     }
-
     return data
