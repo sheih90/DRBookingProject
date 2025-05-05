@@ -140,13 +140,12 @@ def test_create_booking_returns_unique_id(api_client, generate_random_booking_da
 
 
 
-
 @allure.feature('Test creating booking')
 @allure.story('Negative: missing required field - firstname')
 def test_create_booking_missing_firstname(api_client):
     booking_data = {
-        # "firstname" отсутствует
-        "lastname": "Doe",
+        # "firstname": "John",  # Отсутствует
+        "lastname": "Dumany",
         "totalprice": 200,
         "depositpaid": False,
         "bookingdates": {
@@ -155,14 +154,11 @@ def test_create_booking_missing_firstname(api_client):
         }
     }
 
-    try:
-        response = api_client.create_booking(booking_data)
-    except requests.exceptions.HTTPError as e:
-        response = e.response  # Получаем объект response из исключения
+    with pytest.raises(requests.exceptions.HTTPError) as excinfo:
+        api_client.create_booking(booking_data)
 
-    assert response.status_code == 500, "Ожидается статус-код 500 при отсутствии обязательного поля"
-    assert "Invalid JSON" in response.text or "Internal Server Error"
-
+    assert excinfo.value.response.status_code == 500, "Ожидался статус-код 500, но получен"
+    assert "Invalid JSON" in excinfo.value.response.text or "Internal Server Error"
 
 
 
