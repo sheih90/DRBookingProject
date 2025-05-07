@@ -157,7 +157,7 @@ def test_create_booking_missing_firstname(api_client):
     with pytest.raises(requests.exceptions.HTTPError) as excinfo:
         api_client.create_booking(booking_data)
 
-    assert excinfo.value.response.status_code == 500, "Ожидался статус-код 500, но получен"
+    assert excinfo.value.response.status_code == 500, "Ожидался статус-код 500"
     assert "Invalid JSON" in excinfo.value.response.text or "Internal Server Error"
 
 
