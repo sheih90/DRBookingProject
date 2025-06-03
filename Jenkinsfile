@@ -24,10 +24,11 @@ pipeline {
             steps {
                 // Публикация Allure отчетов (если установлен плагин Allure)
                 allure([
-                includeProperties: false,
-                jdk: '',
-                results: [[path: 'allure-results']]
-            ])
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
+                ])
+            }
         }
     }
 
@@ -42,7 +43,3 @@ pipeline {
         }
     }
 }
-
-
-
-
